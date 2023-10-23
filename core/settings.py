@@ -89,7 +89,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'facebook': {
         'APP': {
-
+            'client_id': os.getenv('FACEBOOK_OAUTH_ID'),
+            'secret': os.getenv('FACEBOOK_OAUTH_SECRET'),
         },
     },
 }
