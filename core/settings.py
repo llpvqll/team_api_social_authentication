@@ -43,21 +43,27 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # local apps
-    'api',
-
-    # third party apps
+    # social authentication
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+
+    # local apps
+    'api',
+
+    # third party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
 
 MIDDLEWARE = [
@@ -71,8 +77,11 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
             'client_id': os.getenv('GOOGLE_OAUTH_ID'),
             'secret': os.getenv('GOOGLE_OAUTH_SECRET'),
@@ -127,7 +136,7 @@ DATABASES = {
     }
 }
 
-BASE_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'api.User'
 
 
 # Password validation
